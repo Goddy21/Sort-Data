@@ -3,6 +3,7 @@ import pandas as pd
 import tkinter as tk
 from tkinter import filedialog, messagebox
 import datetime
+import re
 
 # Get desktop path and create SORT RESULT folder
 desktop_path = os.path.join(os.path.expanduser("~"), "Desktop")
@@ -52,7 +53,10 @@ def execute_filter():
 
                     if all(col.lower() in actual_columns for col in required_columns):
                         # Filter rows based on the search_name in 'Customer Name' column
-                        filtered_rows = df[df['Customer Name'].str.contains(search_name, case=False, na=False)]
+                        #filtered_rows = df[df['Customer Name'].str.contains(search_name, case=False, na=False)]
+                        regex_pattern = rf'\b{re.escape(search_name)}\b'
+                        filtered_rows = df[df['Customer Name'].str.match(regex_pattern, case=False, na=False)]
+
                         print(f"Number of filtered rows for '{search_name}': {len(filtered_rows)}")
 
                         if not filtered_rows.empty:
@@ -77,7 +81,10 @@ def execute_filter():
                     actual_columns = df.columns.str.strip().str.lower()
 
                     if all(col.lower() in actual_columns for col in required_columns):
-                        filtered_rows = df[df['Customer Name'].str.contains(search_name, case=False, na=False)]
+                        #filtered_rows = df[df['Customer Name'].str.contains(search_name, case=False, na=False)]
+                        regex_pattern = rf'\b{re.escape(search_name)}\b'
+                        filtered_rows = df[df['Customer Name'].str.match(regex_pattern, case=False, na=False)]
+
                         print(f"Number of filtered rows for '{search_name}': {len(filtered_rows)}")
 
                         if not filtered_rows.empty:
