@@ -13,29 +13,29 @@ a = Analysis(
     [py_source],
     pathex=[],
     binaries=[],
-    datas=[(icon_source, '.')],  # Include the icon file in the output
+    datas=[(icon_source, '.')], 
     hiddenimports=[
         'kivy',
         'kivy.app',
         'kivy.uix.screenmanager',
         'kivy.uix.boxlayout',
-        'kivy.uix.gridlayout',  # ADD THIS
-        'kivy.uix.label',  # ADD THIS
-        'kivy.uix.textinput',  # ADD THIS
-        'kivy.uix.button',  # ADD THIS
-        'kivy.uix.popup',  # ADD THIS
+        'kivy.uix.gridlayout',
+        'kivy.uix.label',  
+        'kivy.uix.textinput',  
+        'kivy.uix.button',  
+        'kivy.uix.popup',
         'kivy.core.window',
-        'kivy.utils',  # ADD THIS
-        'kivy.graphics',  # ADD THIS
+        'kivy.utils', 
+        'kivy.graphics',  
         'plyer',
-        'plyer.platforms',  # Explicitly include plyer.platforms
-        'plyer.platforms.win',  # Explicitly include plyer.platforms.win (or whatever platform)
-        'plyer.platforms.win.filechooser',  # ADD THIS
+        'plyer.platforms',  
+        'plyer.platforms.win',  
+        'plyer.platforms.win.filechooser',  
         'comtypes',
         'win32com',
-        'pandas',  # ADD THIS
-        'datetime',  # ADD THIS
-        're',  # ADD THIS
+        'pandas',  
+        'datetime',  
+        're',  
     ],
     hookspath=[],
     hooksconfig={},
@@ -62,7 +62,7 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=icon_source,  # ADD THIS
+    icon=icon_source, 
 )
 coll = COLLECT(
     exe,
