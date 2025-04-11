@@ -58,7 +58,7 @@ class ExcelFilterApp(App):
 
         # Folder Selection
         input_grid.add_widget(
-            Label(text="Input path or browse folder:", color=get_color_from_hex('#333333'))
+            Label(text="[b]Input path or browse folder[/b]:", color=get_color_from_hex('#333333'), font_size='20sp', markup=True)
         )
         folder_input_layout = BoxLayout(orientation='horizontal', size_hint_x=1)
         self.folder_var = TextInput(multiline=False, size_hint_x=1.5)
@@ -74,7 +74,7 @@ class ExcelFilterApp(App):
 
         # Search Name Input
         input_grid.add_widget(
-            Label(text="Input Name to search:", color=get_color_from_hex('#333333'))
+            Label(text="[b]Input Name to search:[/b]", color=get_color_from_hex('#333333'), font_size='20sp', markup=True)
         )
         self.search_name_var = TextInput(multiline=False)
         input_grid.add_widget(self.search_name_var)
@@ -262,12 +262,30 @@ class ExcelFilterApp(App):
             self.show_popup("Error", str(e))
 
     def show_popup(self, title, message):
+        # Layout for popup content
+        layout = BoxLayout(orientation='vertical', padding=10, spacing=10)
+        
+        # Message label
+        message_label = Label(text=message, text_size=(380, None), halign='center', valign='middle', size_hint=(1,1))
+
+        # Close button
+        close_button = Button(text='Close', size_hint=(1, 0.3), font_size='18sp', bold=True, background_normal='', background_color=(0.2, 0.6, 0.86, 1),color=(1, 1, 1, 1) )
+        
+        # Create popup and bind close action
         popup = Popup(
             title=title,
-            content=Label(text=message),
+            content=layout,
             size_hint=(None, None),
             size=(400, 200),
+            auto_dismiss=False  # Prevent clicking outside to close
         )
+        close_button.bind(on_release=popup.dismiss)
+
+        # Add widgets to layout
+        layout.add_widget(message_label)
+        layout.add_widget(close_button)
+
+        # Show popup
         popup.open()
 
 
