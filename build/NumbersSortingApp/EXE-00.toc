@@ -1,5 +1,5 @@
 ('C:\\Goddie\\Numbers-sort\\build\\NumbersSortingApp\\NumbersSortingApp.exe',
- True,
+ False,
  False,
  True,
  ['C:\\Goddie\\Numbers-sort\\icon.png'],
@@ -89,8 +89,8 @@
  [],
  False,
  False,
- 1744353864,
- [('run.exe',
-   'C:\\Users\\dell\\AppData\\Roaming\\Python\\Python313\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\run.exe',
+ 1745326433,
+ [('runw.exe',
+   'C:\\Users\\dell\\AppData\\Roaming\\Python\\Python313\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\runw.exe',
    'EXECUTABLE')],
  'C:\\Python313\\python313.dll')
