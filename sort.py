@@ -44,6 +44,11 @@ def update_progress(value):
     progress['value'] = value
     root.update_idletasks()
 
+# Helper function to normalize names
+def normalize_name(name):
+    parts = name.lower().strip().split()
+    return ' '.join(sorted(parts))
+
 def execute_filter():
     folder = folder_var.get()
     search_input = search_name_var.get().strip().lower()
@@ -57,13 +62,12 @@ def execute_filter():
     required_columns = ['Credit Identity String', 'Customer Name']
     files_processed = 0
 
-    # Get only supported files
     supported_files = [f for f in os.listdir(folder) if f.endswith(('.xlsx', '.xlsm', '.csv'))]
     progress['value'] = 0
     progress['maximum'] = len(supported_files)
 
-    # Dictionary to store collected data for each search name
     name_data = {name: pd.DataFrame(columns=required_columns) for name in search_names}
+    all_normalized_names = set()  # Track normalized names across all search names
 
     try:
         for filename in supported_files:
@@ -84,7 +88,17 @@ def execute_filter():
                             rows = df[df['Customer Name'].str.contains(pattern, case=False, na=False, regex=True)]
                             if not rows.empty:
                                 available_cols = [col for col in required_columns if col in df.columns]
-                                name_data[search_name] = pd.concat([name_data[search_name], rows[available_cols]], ignore_index=True)
+                                new_rows = rows[available_cols].copy()
+                                filtered_rows = []
+
+                                for _, row in new_rows.iterrows():
+                                    norm_name = normalize_name(row['Customer Name'])
+                                    if norm_name not in all_normalized_names:
+                                        all_normalized_names.add(norm_name)
+                                        filtered_rows.append(row)
+
+                                if filtered_rows:
+                                    name_data[search_name] = pd.concat([name_data[search_name], pd.DataFrame(filtered_rows)], ignore_index=True)
 
             elif filename.endswith('.csv'):
                 try:
@@ -98,7 +112,17 @@ def execute_filter():
                             rows = df[df['Customer Name'].str.contains(pattern, case=False, na=False, regex=True)]
                             if not rows.empty:
                                 available_cols = [col for col in required_columns if col in df.columns]
-                                name_data[search_name] = pd.concat([name_data[search_name], rows[available_cols]], ignore_index=True)
+                                new_rows = rows[available_cols].copy()
+                                filtered_rows = []
+
+                                for _, row in new_rows.iterrows():
+                                    norm_name = normalize_name(row['Customer Name'])
+                                    if norm_name not in all_normalized_names:
+                                        all_normalized_names.add(norm_name)
+                                        filtered_rows.append(row)
+
+                                if filtered_rows:
+                                    name_data[search_name] = pd.concat([name_data[search_name], pd.DataFrame(filtered_rows)], ignore_index=True)
 
                 except pd.errors.ParserError as e:
                     print(f"Error parsing CSV: {filename} - {e}")
